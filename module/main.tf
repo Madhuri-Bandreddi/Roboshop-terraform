@@ -4,7 +4,8 @@ resource "aws_instance" "instance" {
   vpc_security_group_ids = [data.aws_security_group.launch-wizard-16.id]
 
   tags = {
-    Name = var.component_name
+    #Name = var.component_name
+    Name = local.name
   }
 }
 
@@ -22,7 +23,7 @@ resource "null_resource" "provisioner" {
 
     inline = [
       "rm -rf roboshop-shell",
-      "git clone https://github.com/RajasekharDevo/roboshop-shell",
+      "git clone https://github.com/Madhuri-Bandreddi/roboshop-shell.git",
       "cd roboshop-shell",
       "sudo bash ${var.component_name}.sh.${var.password}"
     ]
@@ -30,10 +31,9 @@ resource "null_resource" "provisioner" {
 }
 
 resource "aws_route53_record" "records" {
-  for_each       = var.components
   zone_id        = "Z06377673P2QZ3HGG0TOY"
-  name           = "${each.value["name"]}.madhari123.shop"
+  name           = "${var.component_name}-dev.madhari123.shop"
   type           = "A"
   ttl            = 30
-  records        = [aws_instance.instance[each.value["name"]].private_ip]
+  records        = [aws_instance.instance.private_ip]
 }
