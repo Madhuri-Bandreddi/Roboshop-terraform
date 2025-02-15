@@ -29,11 +29,11 @@ resource "null_resource" "provisioner" {
   }
 }
 
-
 resource "aws_route53_record" "records" {
-  zone_id  = "Z07633651VJKTEQ867N3J"
-  name     = "${var.component_name}-dev.rajasekhar72.store"
-  type     = "A"
-  ttl      = 30
-  records  = [aws_instance.instance.private_ip]
+  for_each       = var.components
+  zone_id        = "Z06377673P2QZ3HGG0TOY"
+  name           = "${each.value["name"]}.madhari123.shop"
+  type           = "A"
+  ttl            = 30
+  records        = [aws_instance.instance[each.value["name"]].private_ip]
 }
