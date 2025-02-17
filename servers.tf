@@ -17,28 +17,30 @@ resource "aws_instance" "instance" {
   tags = {
     Name = each.value["name"]
   }
+}
 
-  # resource "null_resource" "provisioner" {
-  #
-  #   depends_on = [aws_instance.instance, aws_route53_record.records]
+resource "null_resource" "provisioner" {
 
+  depends_on = [aws_instance.instance, aws_route53_record.records]
+  for_each = var.components
   provisioner "remote-exec" {
 
     connection {
       type     = "ssh"
       user     = "root"
       password = "DevOps321"
-      host     = self.private_ip
+      host     = [aws_instance.instance[each.value["name"]].private_ip]
     }
 
     inline = [
       "rm -rf roboshop-shell",
       "git clone https://github.com/Madhuri-Bandreddi/roboshop-shell.git",
       "cd roboshop-shell",
-      "sudo bash ${each.value["name"]}.sh"
+      "sudo bash ${each.value["name"]}.sh ${lookup(each.value, "password", "null")}"
     ]
   }
 }
+
 resource "aws_route53_record" "records" {
   for_each       = var.components
   zone_id        = "Z06377673P2QZ3HGG0TOY"
