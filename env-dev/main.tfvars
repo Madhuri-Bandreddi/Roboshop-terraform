@@ -37,6 +37,7 @@ components = {
     name          = "rabbitmq"
     instance_type = "t2.micro"
     password      = "roboshop123"
+
   }
   payment = {
     name          = "payment"
