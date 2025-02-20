@@ -1,4 +1,4 @@
-module "database-servers" {
+module "database_servers" {
   for_each = var.database_servers
 
   source         = "./module"
@@ -9,8 +9,8 @@ module "database-servers" {
   provisioner    = true
 }
 
-module "app-servers" {
-  depends_on = [module.database-servers]
+module "app_servers" {
+  depends_on = [module.database_servers]
   for_each = var.app_servers
 
   source         = "./module"
