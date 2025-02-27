@@ -10,6 +10,9 @@ resource "aws_instance" "instance" {
 
 resource "null_resource" "provisioner" {
   depends_on = [aws_instance.instance, aws_route53_record.records]
+  triggers = {
+    private_ip = aws_instance.instance.private_ip
+  }
   provisioner "remote-exec" {
 
     connection {
@@ -19,7 +22,7 @@ resource "null_resource" "provisioner" {
       host     = aws_instance.instance.private_ip
     }
 
-    inline = var.app_type == "db" ? local.db_commands : local. app_commands
+    inline = var.app_type == "db" ? local.db_commands : local.app_commands
   }
 }
 
@@ -43,7 +46,7 @@ resource "aws_iam_role" "role" {
         Effect = "Allow"
         Sid    = ""
         Principal = {
-          Service = "ec2. amazonaws. com"
+          Service = "ec2.amazonaws.com"
         }
       },
     ]
@@ -54,6 +57,10 @@ resource "aws_iam_role" "role" {
   }
 }
 
+resource "aws_iam_instance_profile" "instance_profile" {
+  name = "${var.component_name}-${var.env}-role"
+  role = aws_iam_role.role.id
+}
 resource "aws_iam_role_policy" "ssm-ps-policy" {
   name = "${var.component_name}-${var.env}-ssm-ps-policy"
   role = aws_iam_role.role.id
@@ -65,18 +72,16 @@ resource "aws_iam_role_policy" "ssm-ps-policy" {
         "Sid" : "VisualEditor0",
         "Effect" : "Allow",
         "Action" : [
-          "ssm: GetParameterHistory",
-          "ssm: GetParametersByPath",
-          "ssm: GetParameters",
-          "ssm: GetParameter"
+          "kms:Decrypt",
+          "ssm:GetParameterHistory",
+          "ssm:GetParametersByPath",
+          "ssm:GetParameters",
+          "ssm:GetParameter"
         ],
-        "Resource" : "arn:aws:ssm:us-east-1:703671922613:parameter/${var.env}.${var.component_name}.*"
-      },
-      {
-        "Sid" : "VisualEditor1",
-        "Effect" : "Allow",
-        "Action" : "ssm:DescribeParameters",
-        "Resource" : "*"
+        "Resource" : [
+          "arn:aws:ssm:us-east-1:703671922613:parameter/${var.env}.${var.component_name}.*",
+          "arn:aws:kms:us-east-1:703671922613:key/4be654e1-07dd-476e-9e60-d93ae9f7402b"
+        ]
       }
     ]
   })
