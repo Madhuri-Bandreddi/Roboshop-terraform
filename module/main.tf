@@ -26,7 +26,6 @@ resource "null_resource" "provisioner" {
   }
 }
 
-
 resource "aws_route53_record" "records" {
   zone_id  = "Z06377673P2QZ3HGG0TOY"
   name     = "${var.component_name}.madhari123.shop"
