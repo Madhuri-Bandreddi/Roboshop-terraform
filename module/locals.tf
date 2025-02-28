@@ -4,7 +4,7 @@ locals {
     "rm -rf roboshop-shell",
     "git clone https://github.com/Madhuri-Bandreddi/roboshop-shell.git",
     "cd roboshop-shell",
-    "sudo bash ${var.component_name}.sh ${var. password}"
+    "sudo bash ${var.component_name}.sh ${var.password}"
   ]
   app_commands = [
     "sudo labauto ansible",
