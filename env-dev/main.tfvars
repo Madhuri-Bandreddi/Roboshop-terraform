@@ -28,8 +28,6 @@ app_servers = {
   }
 }
 
-env = "dev"
-
 database_servers = {
   mongodb = {
     name          = "mongodb"
@@ -50,3 +48,5 @@ database_servers = {
     password      = "RoboShop@1"
   }
 }
+
+env = "dev"
