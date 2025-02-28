@@ -1,4 +1,5 @@
 module "database_servers" {
+  depends_on = [module.database_servers]
   for_each = var.database_servers
 
   source         = "./module"
@@ -11,7 +12,7 @@ module "database_servers" {
 }
 
 module "app_servers" {
-  depends_on = [module.database_servers]
+  depends_on = [module.app_servers]
   for_each = var.app_servers
 
   source         = "./module"

@@ -20,7 +20,6 @@ app_servers = {
     instance_type = "t3.medium"
     password      = "RoboShop@1"
   }
-
   payment = {
     name          = "payment"
     instance_type = "t3.micro"
