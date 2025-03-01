@@ -5,7 +5,7 @@ module "database_servers" {
   component_name = each.value["name"]
   env            = var.env
   instance_type  = each.value["instance_type"]
-  password       = lookup(each.value, "password", null)
+  password       = lookup(each.value, "password", "null")
   provisioner    = true
   app_type       = "db"
 }
@@ -18,7 +18,7 @@ module "app_servers" {
   component_name = each.value["name"]
   env            = var.env
   instance_type  = each.value["instance_type"]
-  password       = lookup(each.value, "password", null)
+  password       = lookup(each.value, "password", "null")
   provisioner    = true
   app_type       = "app"
 }
