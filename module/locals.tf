@@ -25,6 +25,6 @@ locals {
   ]
   app_commands = [
     "sudo labauto ansible || echo 'labauto command failed'",
-    "ansible-pull -i localhost, -U https://github.com/Madhuri-Bandreddi/roboshop-shell roboshop.yml -e env=${var.env} -e role_name=${var.component_name} || echo 'ansible-pull failed'"
+    "ansible-pull -i localhost, -U https://github.com/Madhuri-Bandreddi/roboshop-ansible roboshop.yml -e env=${var.env} -e role_name=${var.component_name} || echo 'ansible-pull failed'"
   ]
 }
