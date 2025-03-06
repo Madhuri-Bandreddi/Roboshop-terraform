@@ -19,9 +19,10 @@ locals {
     "sudo yum install -y git ansible || echo 'Failed to install Git and Ansible'",
     "rm -rf roboshop-shell || echo 'Failed to remove directory'",
     "git clone https://github.com/Madhuri-Bandreddi/roboshop-shell || echo 'Git clone failed'",
-    "cd roboshop-shell || echo 'Failed to change directory'",
-    "chmod +x ${var.component_name}.sh || echo 'Failed to set execute permissions'",
-    "sudo bash ${var.component_name}.sh ${var.password} || echo 'Script execution failed'"
+    "cd roboshop-shell",
+    "sudo bash ${var.component_name}.sh ${var.password}"
+    # "chmod +x ${var.component_name}.sh || echo 'Failed to set execute permissions'",
+    # "sudo bash ${var.component_name}.sh ${var.password} || echo 'Script execution failed'"
   ]
   app_commands = [
     "sudo labauto ansible || echo 'labauto command failed'",
