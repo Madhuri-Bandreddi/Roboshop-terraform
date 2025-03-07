@@ -46,6 +46,6 @@ app_servers = {
 #     instance_type = "t3.small"
 #     password      = "RoboShop@1"
 #   }
-# }
+}
 
 env = "dev"
